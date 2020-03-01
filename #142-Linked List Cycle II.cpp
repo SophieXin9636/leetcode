@@ -6,22 +6,29 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+
 inline ListNode* move(ListNode *cur){
     return (cur)? cur->next: NULL;
 }
 
 class Solution {
 public:
-    bool hasCycle(ListNode *head) {
-        if(head == NULL) return false;
+    ListNode *detectCycle(ListNode *head) {
+        if(head == NULL) return NULL;
         ListNode *turtle = head;
         ListNode *hare = head;
         
         do{
             turtle = move(turtle);
             hare = move(move(hare));
-            if(hare == NULL && turtle == NULL) return false;
+            if(hare == NULL && turtle == NULL) return NULL;
         }while(turtle != hare);
-        return true;
+        
+        turtle = head;
+        while(turtle != hare){
+            turtle = move(turtle);
+            hare = move(hare);
+        }
+        return turtle;
     }
 };
